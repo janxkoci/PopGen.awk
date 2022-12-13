@@ -1,13 +1,13 @@
 #!/usr/bin/awk -f
 
-## awk -f eigenfiles2vcf.awk -v prefix="SGDP/SGDP.v2"
+## awk -f eigenstrat2vcf.awk -v prefix="SGDP/SGDP.v2"
 
 BEGIN {
 	OFS = "\t"
 
 	## VCF HEADER
 	print "##fileformat=VCFv4.2"
-	print "##source=eigenfiles2vcf.awk"
+	print "##source=eigenstrat2vcf.awk"
 	print "##INFO=<ID=CH,Number=0,Type=Flag,Description=\"REF allele polarized by chimp (panTro6) aligned to hg19. Repeats are lowercase.\">"
 	print "##FORMAT=<ID=GT,Number=1,Type=String,Description=\"Genotype\">"
 	# TODO "getline FILENAME" to extract contig names
