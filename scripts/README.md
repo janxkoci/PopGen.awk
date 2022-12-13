@@ -1,7 +1,11 @@
 # Scripts
 
 ## eigenstrat2vcf.awk
-Converts files in EIGENSTRAT format to a GT-only VCF. The EIGENSTRAT format consists of three files - a genotype matrix (`.geno`), a list of sites (`.snp`), and a list of samples (`.ind`). This format is produced e.g. by `ctools`, a package of tools to manipulate the SGDP-lite dataset.
+Converts files in EIGENSTRAT format to a GT-only VCF. The EIGENSTRAT format is produced e.g. by `ctools`, a package of tools to manipulate the SGDP-lite dataset. This format consists of three files:
+
+ - a genotype matrix (`.geno`),
+ - a list of sites (`.snp`),
+ - and a list of samples (`.ind`).
 
 The three-file format typically uses a shared name **prefix**, which is provided to the `awk` script as a parameter:
 
