@@ -9,7 +9,7 @@ BEGIN {
 	print "##fileformat=VCFv4.2"
 	print "##source=eigenfiles2vcf.awk"
 	print "##INFO=<ID=CH,Number=0,Type=Flag,Description=\"REF allele polarized by chimp (panTro6) aligned to hg19. Repeats are lowercase.\">"
-	print "##FORMAT=<ID=TGT,Number=1,Type=String,Description=\"Translated genotype\">"
+	print "##FORMAT=<ID=GT,Number=1,Type=String,Description=\"Genotype\">"
 	# TODO "getline FILENAME" to extract contig names
 	# actually bcftools merge will do it for you, so don't bother
 
@@ -40,10 +40,15 @@ BEGIN {
 		split(genotypes, gts, "")
 		## scan genotypes
 		for(i = 1; i <= length(gts); i++) { ## for(i=5;i<=NF;i++) gsub(/0/,$3,$i) gsub(/1/,$4,$i); print
-			sub(/9/, "./.", gts[i]) ## missing
-			sub(/2/, $5"/"$5, gts[i]) ## ref homozygous
-			sub(/1/, $5"/"$6, gts[i]) ## heterozygous
-			sub(/0/, $6"/"$6, gts[i]) ## alt homozygous
+			gtcodes[9] = "./."
+			gtcodes[2] = "0/0"
+			gtcodes[1] = "0/1"
+			gtcodes[0] = "1/1"
+			
+			if (gts[i] in gtcodes) {
+				gts[i] = gtcodes[gts[i]]
+				continue
+			}
 			#printf gts[i]
 		}
 		## concat array elements into string
@@ -51,6 +56,6 @@ BEGIN {
 		for (i = 1;  i <= length(gts); i++) {allgts = allgts sep gts[i]; sep = "\t"}
 
 		## print chrom, pos, id, ref, alt, etc..
-		print $2, $4, $1, $5, $6, ".", ".", "CH", "TGT", allgts #gts[1], gts[2]
+		print $2, $4, $1, $5, $6, ".", ".", "CH", "GT", allgts #gts[1], gts[2]
 	}
 }
