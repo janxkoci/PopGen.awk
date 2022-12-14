@@ -32,6 +32,13 @@ BEGIN {
 	## print VCF colnames
 	print "#CHROM", "POS", "ID", "REF", "ALT", "QUAL", "FILTER", "INFO", "FORMAT", allinds
 
+	## VCF BODY
+
+	gtcodes[9] = "./." ## missing
+	gtcodes[2] = "0/0" ## ref homozygous
+	gtcodes[1] = "0/1" ## heterozygous
+	gtcodes[0] = "1/1" ## alt homozygous
+
 	## read snp file
 	while ((getline < snpfile) > 0) { ## columns 1..6 are available with $1..$6
 		## read geno file
@@ -39,12 +46,7 @@ BEGIN {
 		## split to array
 		split(genotypes, gts, "")
 		## scan genotypes
-		for(i = 1; i <= length(gts); i++) { ## for(i=5;i<=NF;i++) gsub(/0/,$3,$i) gsub(/1/,$4,$i); print
-			gtcodes[9] = "./."
-			gtcodes[2] = "0/0"
-			gtcodes[1] = "0/1"
-			gtcodes[0] = "1/1"
-			
+		for(i = 1; i <= length(gts); i++) {
 			if (gts[i] in gtcodes) {
 				gts[i] = gtcodes[gts[i]]
 				continue
