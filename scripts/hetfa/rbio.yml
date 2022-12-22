@@ -1,0 +1,16 @@
+name: rbio
+channels:
+  - conda-forge
+dependencies:
+  - r-base=4
+  - r-essentials
+  - r-magrittr
+  - r-ape
+  - r-seqinr
+  - r-poppr
+  - r-adegenet
+  - r-phangorn
+  - r-vcfr
+  - r-pegas
+  - r-rentrez
+  - bioconductor-ggtree
