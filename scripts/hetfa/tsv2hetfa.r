@@ -14,15 +14,15 @@ if (length(fastafile) != 1) stop("Check your fastafile! [.fa|.fasta]", call.=FAL
 if (length(snpfile) != 1) stop("Check your snpfile! [.tsv]", call.=FALSE)
 
 fastaname <- tools::file_path_sans_ext(fastafile) # basename(fastafile)
-# snpname <- tools::file_path_sans_ext(snpfile)
+snpname <- tools::file_path_sans_ext(snpfile)
 
 if(grepl(".gz", fastafile)) {
 	fastaname <- tools::file_path_sans_ext(fastafile, compression = T) # basename(fastafile)
 	fastafile <- gzfile(fastafile)
 }
 if(grepl(".gz", snpfile)) {
+	snpname <- tools::file_path_sans_ext(snpfile, compression = T)
 	snpfile <- gzfile(snpfile)
-	# snpname <- tools::file_path_sans_ext(snpfile, compression = T)
 }
 
 ## READ DATA
@@ -51,5 +51,5 @@ for(chr in chroms) {
 ## WRITE OUTPUT
 # write.csv(sites, paste0(fastaname, ".csv"))
 # write.table(sites, paste0(fastaname, ".tsv"), quote=F, sep="\t", row.names=F)
-write.dna(fas, paste0(fastaname, ".hetfa.fa"),
+write.dna(fas, paste0(snpname, ".hetfa.fa"),
 	format = "fasta", colsep = "") # nbcol = -1
