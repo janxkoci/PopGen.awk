@@ -6,7 +6,11 @@ Collection of AWK scripts for population &amp; evolutionary genomics. Maybe a li
 ## Dependencies
 I write in several _flavours_ of the AWK language (see [here for more details](./world_of_awk.md)).
 
-All the AWK interpreters used in this repository can be easily installed with package managers like `conda` or `brew`. For example, you can use the following conda command to install all the necessary dependencies in a new environment:
+All the AWK interpreters used in this repository can be easily installed with package managers like `conda` or `brew`. Moreover, I often use `bcftools query` to convert raw VCF into tabular format suitable for many of the scripts.
 
-	conda create -name popgen-awk --channel conda-forge --channel bioconda gawk mawk=1.3.4 bioawk miller r-base r-seqinr r-ape
-	conda activate popgen-awk
+For example, you can use the following `conda` command to install all the necessary dependencies in a new environment:
+
+```bash
+conda create --name popgen-awk --channel conda-forge --channel bioconda gawk mawk=1.3.4 bioawk bcftools miller # r-base r-seqinr r-ape
+conda activate popgen-awk
+```
