@@ -1,8 +1,12 @@
 # PopGen.awk
-Collection of awk scripts for population &amp; evolutionary genomics. Maybe a library later.
+Collection of AWK scripts for population &amp; evolutionary genomics. Maybe a library later.
 
-**Motivation:** Even though existing tools sometimes claim to do what I need, I often find they do it [wrongly](https://github.com/vcflib/vcflib/issues/313), or just not the way [I need](https://www.cog-genomics.org/plink/1.9/basic_stats#freq). Since I like coding, I started to write my own scripts in awk, a simple scripting language designed to process structured textual data - exactly the kind we see in genomics. I'm now arriving to the point where managing my scripts in separate gists is getting clumsy and so I'm making this repository to keep the scripts in one place and to make code reuse easier.
+**Motivation:** Even though existing tools sometimes claim to do what I need, I often find they do it [incorrectly](https://github.com/vcflib/vcflib/issues/313), or just not the way [I need](https://github.com/DReichLab/AdmixTools/tree/master/convertf). Since I like coding, I started to write my own scripts in AWK, a simple scripting language designed to process structured textual data - exactly the kind we see in genomics. As my scripts started to grow in numbers, managing them in separate gists was getting clumsy and so I've made this repository to keep the scripts in one place, and to make code reuse easier. Besides AWK, some R or Miller may show up here too.
 
-**Note:** Some scripts may be optimized for different _flavours_ of awk (like mawk, or bioawk). Some may _require_ a particular flavour (like gawk or bioawk). Also some R or miller may show up here. I will do my best to make clear which awk flavour should be used with each script. For now, I typically use the shebang and file extension to indicate if a particular awk flavour is required.
+## Dependencies
+I write in several _flavours_ of the AWK language (see [here for more details](./world_of_awk.md)).
 
-All the awk flavours used here are easy to install with package managers like conda or brew.
+All the AWK interpreters used in this repository can be easily installed with package managers like `conda` or `brew`. For example, you can use the following conda command to install all the necessary dependencies in a new environment:
+
+	conda create -name popgen-awk --channel conda-forge --channel bioconda gawk mawk=1.3.4 bioawk miller r-base r-seqinr r-ape
+	conda activate popgen-awk
