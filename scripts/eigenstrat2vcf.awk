@@ -14,7 +14,7 @@ BEGIN {
 	# actually bcftools merge will do it for you, so don't bother
 
 	## input prefix
-	prefix ==""?"SGDP/SGDP.v2":prefix # doesn't seem to work - provide '-v prefix=' 
+	prefix = prefix == "" ? "SGDP/SGDP.v2" : prefix # doesn't seem to work - provide '-v prefix=' 
 	indfile = prefix".ind"
 	snpfile = prefix".snp"
 	genofile = prefix".geno"
