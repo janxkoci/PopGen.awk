@@ -28,7 +28,7 @@ BEGIN {
 	}
 	## concat sample names into a string
 	allinds = ""; sep = ""
-	for (i = 1;  i <= length(samples); i++) {allinds = allinds sep samples[i]; sep = "\t"}
+	for (i = 1;  i in samples; i++) {allinds = allinds sep samples[i]; sep = "\t"}
 	## print VCF colnames
 	print "#CHROM", "POS", "ID", "REF", "ALT", "QUAL", "FILTER", "INFO", "FORMAT", allinds
 
@@ -46,7 +46,7 @@ BEGIN {
 		## split to array
 		split(genotypes, gts, "")
 		## scan genotypes
-		for(i = 1; i <= length(gts); i++) {
+		for(i = 1; i in gts; i++) {
 			if (gts[i] in gtcodes) {
 				gts[i] = gtcodes[gts[i]]
 				continue
@@ -55,7 +55,7 @@ BEGIN {
 		}
 		## concat array elements into string
 		allgts = ""; sep = ""
-		for (i = 1;  i <= length(gts); i++) {allgts = allgts sep gts[i]; sep = "\t"}
+		for (i = 1;  i in gts; i++) {allgts = allgts sep gts[i]; sep = "\t"}
 
 		## print chrom, pos, id, ref, alt, etc..
 		print $2, $4, $1, $5, $6, ".", ".", "CH", "GT", allgts #gts[1], gts[2]
