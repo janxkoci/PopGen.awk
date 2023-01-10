@@ -2,10 +2,54 @@
 
 BEGIN {
 	OFS = "\t"
-	print "chrom", "pos", "ref", "alt", "aa", "da", "Altai", "Denisova3", "Chagyrskaya", "Vindija", "Africa"
 }
 
-$5 == $6 {		# chimp matches gorilla
+## READ POPFILE
+FNR == NR {
+	# read popfile into array (2 columns with ind and pop names)
+	inds[FNR] = $1
+	pops[FNR] = $2
+	upops[$2]++ # unique pops
+	next
+}
+
+## READ DATA HEADER
+FNR == 1 {
+	## check if "outgroup" is present in popfile
+	if ("outgroup" in pops) {
+		continue # OK?
+	} else {
+		print "Error: No outgroup found!"
+		exit 1
+	}
+
+	## check if columns match popfile
+	if (length(inds) != NF - 4) {
+		print "Error: Samples mismatch between popfile and datafile!"
+		exit 1
+	}
+
+	## get unique pops
+	## TODO define as function
+	# for (i=1; i in array; i++) {
+	# 	if ( !seen[array[i]]++ ) {
+	# 		unique[++j] = array[i]
+	# 	}
+	# }
+
+	## print header
+	allpops = ""; sep = ""
+	for (i = 1;  i <= length(upops); i++) {
+		# FIXME
+		# upops doesn't have numeric index, and also will be unsorted!
+		# see https://stackoverflow.com/a/60157991/5184574
+		allpops = allpops sep upops[i]; sep = "\t"
+	}
+	print "chrom", "pos", "ref", "alt", "aa", "da", allpops
+}
+
+## READ DATA
+FNR > 1 && $5 == $6 {		# chimp matches gorilla
 	
 	## concatenate African genotypes to a string (columns 11..NF)
 	afr = ""
