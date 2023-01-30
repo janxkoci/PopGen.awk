@@ -1,51 +1,89 @@
-#!/usr/bin/awk -f
+#!/usr/bin/gawk -f
+
+# @include "functions.awk"
 
 BEGIN {
 	OFS = "\t"
 }
 
+# {print "FNR:", FNR, "NR:", NR > "/dev/stderr" }
+
 ## READ POPFILE
 FNR == NR {
-	# read popfile into array (2 columns with ind and pop names)
-	inds[FNR] = $1
-	pops[FNR] = $2
-	upops[$2]++ # unique pops
+	if (NF != 2) {
+		print "Error: Popfile expected to have 2 columns delimited by whitespace!" > "/dev/stderr"
+		print "Check delimiter and/or whitespace in names." > "/dev/stderr"
+		exit 1
+	}
+	## read popfile into array (2 columns with ind and pop names)
+	## bouncing ideas here...
+	ind = $1
+	pop = $2
+	ind2pop[ind] = pop # easySFS.py:536
+	# pops[pop].append(ind) # python3
+
+	inds[FNR] = $1 # num-indexed array of sample names
+	pops[FNR] = $2 # num-indexed array of pop names
+	#upops[$2]++ # unique pops
+	#ipops[$2][++i] = FNR + 4 # pop indices
+
+	## outgroup array
+	if (pop == "outgroup") {
+		outgroup[++o] = FNR + 4 # num-indexed list of column idx
+	} else {
+		## save non-outgroup pops
+		ipops[pop][++i] = FNR + 4 # pop indices
+	}
+	nind = FNR # num of inds
 	next
 }
 
 ## READ DATA HEADER
 FNR == 1 {
+	## VALIDATIONS..
 	## check if "outgroup" is present in popfile
-	if ("outgroup" in pops) {
-		continue # OK?
+	#if ("outgroup" in ipops) {
+	if (outgroup) {
+		print "An outgroup found, OK!" > "/dev/stderr"
 	} else {
-		print "Error: No outgroup found!"
+		print "Error: No outgroup found!" > "/dev/stderr"
 		exit 1
 	}
 
 	## check if columns match popfile
+	# print length(inds), NF > "/dev/stderr"
 	if (length(inds) != NF - 4) {
-		print "Error: Samples mismatch between popfile and datafile!"
+		print "Error: Samples mismatch between popfile and datafile!" > "/dev/stderr"
 		exit 1
 	}
 
-	## get unique pops
-	## TODO define as function
-	# for (i=1; i in array; i++) {
-	# 	if ( !seen[array[i]]++ ) {
-	# 		unique[++j] = array[i]
-	# 	}
-	# }
-
-	## print header
+	## prepare header
 	allpops = ""; sep = ""
-	for (i = 1;  i <= length(upops); i++) {
-		# FIXME
-		# upops doesn't have numeric index, and also will be unsorted!
-		# see https://stackoverflow.com/a/60157991/5184574
-		allpops = allpops sep upops[i]; sep = "\t"
+	for (i = 1;  i in pops; i++) {
+		if (!seen[pops[i]]++) {
+			upops[++j] = pops[i] # unique pops
+			allpops = allpops sep pops[i]; sep = "\t"
+		}
 	}
 	print "chrom", "pos", "ref", "alt", "aa", "da", allpops
+}
+
+{
+	## TODO
+	## get outgroup GT and set aa & da
+
+	## iterate over pops in order
+	for (pop = 1; pop in upops; pop++) {
+		## iterate over samples in pop
+		gt = ""
+		for (s in ipops) {
+			## concat genotypes
+			#gt = gt ipops[upops[pop]][s]
+			gt[pop] += gsub(da, "", ipops[upops[pop]][s])
+		}
+		# dac = gsub(da, "", gt)
+		# aac = gsub(aa, "", gt)
+	}
 }
 
 ## READ DATA
