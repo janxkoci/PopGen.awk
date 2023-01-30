@@ -125,7 +125,7 @@ FNR > 1 {
 }
 
 ## TESTING
- FNR > 50 {exit}
+#FNR > 50 {exit}
 
 ## FUNCTIONS
 ## print message to stderr
