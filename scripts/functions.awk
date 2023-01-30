@@ -5,7 +5,7 @@
 ## it will make input clear, so i know how to get it
 
 ## arr2str
-# see https://stackoverflow.com/a/60157991/5184574
+## see https://stackoverflow.com/a/60157991/5184574
 function arr2str(arr,    str, sep, i)
 {
     for (i = 1; i in arr; i++) {
@@ -14,7 +14,7 @@ function arr2str(arr,    str, sep, i)
     return str
 }
 
-# get unique values from array
+## get unique values from array
 function uniq(arr,    unique, seen, i)
 {
 	for (i=1; i in arr; i++) {
@@ -45,6 +45,7 @@ function getalleles(outgroups,    alleles)
 	return alleles
 }
 
+## print message to stderr
 function message(text)
 {
 	print text > "/dev/stderr"
