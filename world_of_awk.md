@@ -12,8 +12,10 @@ For the code in this repository, the following interpreters are the most relevan
 - **GNU awk**, also known as `gawk`, is the most advanced version, feature-wise. Besides its POSIX and "traditional" modes, it provides many new extensions and features, bringing the AWK language on par with other scripting languages like Perl or Python. It's also the only version supporting locales and Unicode! It is actively developed by Arnold Robbins and other collaborators. It is often the default version on many Linux versions (notably excluding Ubuntu, where `mawk` is the default). **_If in doubt, use this version._**
 - **`bioawk`** is an extension of BWK AWK for biologists, developed by Heng Li. It provides support for several common bioinformatic formats (FASTA, FASTQ, SAM, BED, GFF, VCF), as well as TSV with headers (where column names can be used in place of standard numeric names). Also supports gzipped input (again, very common in bioinformatics).
 
-**To summarize:** Even though `gawk` is the most comfortable to use, providing extra convenient functions, I usually try to write in POSIX, if possible, so I can use the speedy `mawk`. But sometimes `gawk` is more easy or elegant. I haven't written any scripts in `bioawk` (yet) - I mostly use it for one-liners.
+Even more comprehensive list can be found in the [GNU `awk` manual](https://www.gnu.org/software/gawk/manual/html_node/Other-Versions.html).
 
-I will do my best to make clear which AWK flavour should be used with each script. For now, I typically use the shebang and the file extension to indicate if a particular AWK flavour is required.
+**To summarize:** Even though `gawk` is the most comfortable to use, providing extra convenient functions, I usually try to write in POSIX, if possible, so I can use the speedy `mawk`. But sometimes `gawk` is more easy or elegant. I haven't written any scripts in `bioawk` (yet) - for now I mostly use it for one-liners.
+
+I will do my best to make clear which AWK flavour should be used with each script. For now, I typically use the shebang and the file extension to indicate if a particular AWK flavour is _required_.
 
 All the AWK flavours used here are easy to install with package managers like `conda` or `brew`.
