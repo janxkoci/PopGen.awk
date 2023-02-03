@@ -16,18 +16,47 @@ Removal of missing data with `grep`:
 ### Input files
 The script needs two files to work - a popfile and a genotype file. Note that the file order is important - the popfile _must_ be listed before the genotype file. (I may implement handling named arguments (with `getopts`) but with only two arguments it's not a priority.)
 
-### popfile
+#### popfile
 A file with two columns (separated by whitespace, without header), with first column listing individuals and second column defining populations. Can be made in a speadsheet and exported as TSV, or e.g. from an eigenstrat `ind` file:
 
     awk '{print $1, $3}' data.eigenstrat.ind > popfile.tsv
 
 
-### genotype file
+#### genotype file
 A whitespace-delimited file with four leading columns (CHROM, POS, REF, ALT), followed by variable number of columns with genotypes (GT) for each sample in the popfile (for now the number of samples in both files have to match). The genotype file can be produced using `bcftools query`:
 
     bcftools query -Hf '%CHROM\t%POS\t%REF\t%ALT[\t%GT]\n' input.vcf | sed '1s/# //' > genotypes.tsv
 
 (Note that the `sed` command is necessary to fix the table header, which has `# ` at the beginning, producing extra column in the eyes of most tools, most notably `awk`!)
+
+### Output postprocessing
+The file can then be loaded into `R` to produce site pattern counts:
+
+```R
+library(tidyverse)
+
+snps <- read_tsv("dac.tsv")
+
+full <- snps %>% 
+    group_by(Altai,Denisova3,Chagyrskaya,Vindija,Africa) %>% 
+    summarise(count = n())
+```
+To filter only positions with G/C or A/T polymorphisms, we can use the following:
+
+```R
+filtered <- snps %>% 
+    mutate(aa = toupper(aa), da = toupper(da), gt = paste0(aa, da)) %>% 
+    subset(grepl("AT|TA|CG|GC", .$gt)) %>% 
+    group_by(Altai,Denisova3,Chagyrskaya,Vindija,Africa) %>% 
+    summarise(at_gc = n())
+```
+
+Finally, we can merge the two tables:
+
+```R
+final <- merge(full, filtered, all.x = TRUE)
+write_tsv(final, "dac_tabulated.tsv")
+```
 
 ## eigenstrat2vcf.awk
 Converts files in EIGENSTRAT format to a GT-only VCF, preserving any polarization by outgroup, such as chimp. The EIGENSTRAT format is produced e.g. by `ctools`, a package of tools to manipulate the SGDP-lite dataset. This format consists of three files:
