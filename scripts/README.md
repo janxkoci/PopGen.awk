@@ -72,6 +72,14 @@ The three-file format typically uses a shared name **prefix**, which is provided
 The script is POSIX compliant, so `mawk` can be used for extra speed. The output is a minimal-but-valid VCF (e.g. `bcftools` accepts it and so can be used to add missing annotations, if need be).
 
 ## vcfGTcount.gawk
-A simple script that takes VCF as input and prints genotype counts for all samples, in long three-column format: sample, GT, count. The output can be easily analyzed with e.g. R or miller.
+A simple script that takes VCF as input and prints genotype counts for all samples, in long three-column format: sample, GT, count. The output can be easily analyzed with e.g. R or miller. I am often interested in genotype counts to check for various artifacts and irregularities in my samples, but I haven't found a good tool that provides this basic function.
 
 Another important objective of this script is to showcase VCF parsing with `gawk` - how to loop over samples, parse genotypes, and accumulate basic stats. It can be easily expanded to e.g. count translated genotypes, per-sample mean coverage, etc, using the same coding techniques.
+
+Usage:
+
+```bash
+gawk -f vcfGTcount.gawk input.vcf > gtcounts.tsv
+# or compressed input
+zcat input.vcf.gz | gawk -f vcfGTcount.gawk - > gtcounts.tsv
+```
