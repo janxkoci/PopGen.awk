@@ -80,6 +80,8 @@ Usage:
 
 ```bash
 gawk -f vcfGTcount.gawk input.vcf > gtcounts.tsv
-# or compressed input
+# or compressed vcf
 zcat input.vcf.gz | gawk -f vcfGTcount.gawk - > gtcounts.tsv
+# or bcf
+bcftools view input.bcf | gawk -f vcfGTcount.gawk - > gtcounts.tsv
 ```
