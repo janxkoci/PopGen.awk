@@ -1,7 +1,7 @@
 # Scripts
 
 ## derived.gawk
-Takes a popfile and genotype table (produced with `bcftools query`, see below), and produces a new table with per-population derived allele counts, as defined in a popfile, using "outgroup" to define ancestral and derived alleles ("outgroup" **must be** one of the populations in the popfile).
+Produces per-population counts of derived alleles (aka unfolded site frequency spectra) using a popfile and genotype table (produced with `bcftools query`, see below), using "outgroup" to define ancestral and derived alleles ("outgroup" **must be** one of the populations in the popfile).
 
 Basic usage:
 
@@ -67,7 +67,7 @@ Converts files in EIGENSTRAT format to a GT-only VCF, preserving any polarizatio
 
 The three-file format typically uses a shared name **prefix**, which is provided to the `awk` script as a parameter:
 
-    awk -f eigenstrat2vcf.awk -v prefix="SGDP.v2" | bgzip --threads 4 > SGDP.v2.vcf.gz
+    awk -f eigenstrat2vcf.awk -v prefix="SGDP.v2" | bgzip > SGDP.v2.vcf.gz
 
 The script is POSIX compliant, so `mawk` can be used for extra speed. The output is a minimal-but-valid VCF (e.g. `bcftools` accepts it and so can be used to add missing annotations, if need be).
 
