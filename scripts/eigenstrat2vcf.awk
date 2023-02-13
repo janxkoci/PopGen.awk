@@ -5,7 +5,7 @@
 function usage()
 {
 	print "Please provide prefix for eigenstrat files." > "/dev/stderr"
-	print "usage: eigenstrat2vcf prfix" > "/dev/stderr"
+	print "usage: eigenstrat2vcf prefix" > "/dev/stderr"
 	exit 1
 }
 
@@ -13,7 +13,7 @@ BEGIN {
 	OFS = "\t"
 
 	## args
-	if (ARGC != 2)
+	if (ARGC != 2) # indexing starts at 0
 		usage()
 
 	prefix = ARGV[1]
