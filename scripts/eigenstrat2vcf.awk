@@ -5,16 +5,8 @@
 BEGIN {
 	OFS = "\t"
 
-	## VCF HEADER
-	print "##fileformat=VCFv4.2"
-	print "##source=eigenstrat2vcf.awk"
-	print "##INFO=<ID=CH,Number=0,Type=Flag,Description=\"REF allele polarized by chimp (panTro6) aligned to hg19. Repeats are lowercase.\">"
-	print "##FORMAT=<ID=GT,Number=1,Type=String,Description=\"Genotype\">"
-	# TODO "getline FILENAME" to extract contig names
-	# actually bcftools merge will do it for you, so don't bother
-
 	## input prefix
-	prefix = prefix == "" ? "SGDP/SGDP.v2" : prefix # doesn't seem to work - provide '-v prefix=' 
+	prefix = prefix == "" ? "SGDP/SGDP.v2" : prefix # default prefix
 	indfile = prefix".ind"
 	snpfile = prefix".snp"
 	genofile = prefix".geno"
@@ -29,11 +21,16 @@ BEGIN {
 	## concat sample names into a string
 	allinds = ""; sep = ""
 	for (i = 1;  i in samples; i++) {allinds = allinds sep samples[i]; sep = "\t"}
-	## print VCF colnames
+
+	## VCF HEADER
+	print "##fileformat=VCFv4.2"
+	print "##source=eigenstrat2vcf.awk"
+	print "##INFO=<ID=CH,Number=0,Type=Flag,Description=\"REF allele polarized by chimp (panTro6) aligned to hg19. Repeats are lowercase.\">"
+	print "##FORMAT=<ID=GT,Number=1,Type=String,Description=\"Genotype\">"
 	print "#CHROM", "POS", "ID", "REF", "ALT", "QUAL", "FILTER", "INFO", "FORMAT", allinds
 
 	## VCF BODY
-
+	## genotypes dict
 	gtcodes[9] = "./." ## missing
 	gtcodes[2] = "0/0" ## ref homozygous
 	gtcodes[1] = "0/1" ## heterozygous
