@@ -4,7 +4,7 @@
 
 function usage()
 {
-	print "Please provide prefix for eigenstrat files."
+	print "Please provide prefix for eigenstrat files." > "/dev/stderr"
 	print "usage: eigenstrat2vcf prfix" > "/dev/stderr"
 	exit 1
 }
@@ -13,7 +13,7 @@ BEGIN {
 	OFS = "\t"
 
 	## args
-	if (ARGC != 1)
+	if (ARGC != 2)
 		usage()
 
 	prefix = ARGV[1]
