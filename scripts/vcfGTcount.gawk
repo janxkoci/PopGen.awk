@@ -1,7 +1,16 @@
 #!/usr/bin/gawk -f
 
+function usage()
+{
+    print "usage: vcfGTcount [input.vcf|stdin]" > "/dev/stderr"
+    exit 1
+}
+
 BEGIN {
     OFS = "\t"
+
+    if (ARGC == 1) # may not work with stdin
+        usage()
 }
 
 /##/ {
