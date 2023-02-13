@@ -1,9 +1,20 @@
 #!/usr/bin/awk -f
 
-## awk -f eigenstrat2vcf.awk -v prefix="SGDP/SGDP.v2"
+## awk -f eigenstrat2vcf.awk SGDP/SGDP.v2
+
+function usage()
+{
+	print "Please provide prefix for eigenstrat files."
+	print "usage: eigenstrat2vcf prfix" > "/dev/stderr"
+	exit 1
+}
 
 BEGIN {
 	OFS = "\t"
+
+	## args
+	if (ARGC != 1)
+		usage()
 
 	## input prefix
 	prefix = prefix == "" ? "SGDP/SGDP.v2" : prefix # default prefix
