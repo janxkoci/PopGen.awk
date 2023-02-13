@@ -16,8 +16,11 @@ BEGIN {
 	if (ARGC != 1)
 		usage()
 
+	prefix = ARGV[1]
+	ARGV[1] = "" # don't let awk use it as file
+
 	## input prefix
-	prefix = prefix == "" ? "SGDP/SGDP.v2" : prefix # default prefix
+	#prefix = prefix == "" ? "SGDP/SGDP.v2" : prefix # default prefix
 	indfile = prefix".ind"
 	snpfile = prefix".snp"
 	genofile = prefix".geno"
