@@ -9,8 +9,8 @@ function usage()
 BEGIN {
     OFS = "\t"
 
-    if (ARGC == 1) # may not work with stdin
-        usage()
+    #if (ARGC == 1) # may not work with stdin
+    #    usage()
 }
 
 /##/ {
