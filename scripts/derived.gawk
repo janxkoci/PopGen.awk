@@ -96,13 +96,13 @@ FNR > 1 {
 
 	## iterate over unique pops in order
 	for (p = 1; p in upops; p++) {
-		## reset dac
-		delete dac[p]
+		## reset dac & aac
+		delete dac[p]; #delete aac[p]
 		## iterate over samples in pop
 		for (s in pops[upops[p]]) {
 			column = pops[upops[p]][s]
 			## count alleles within pop
-			aac[p] += gsub(anc, "", $column)
+			#aac[p] += gsub(anc, "", $column)
 			dac[p] += gsub(der, "", $column)
 		}
 	}
