@@ -1,0 +1,6 @@
+#!/usr/bin/env mlr -s
+
+-t
+put -f daf_filters.mlr
++ count -g Bantu_like,Denisovan3,Vindija
++ sort -nr count

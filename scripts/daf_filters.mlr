@@ -1,0 +1,5 @@
+# mlr -t --from SGDP.subset.noNA.dac.tsv.gz put -f dac_filters.mlr + count
+
+$gt = $aa.$da;
+filter $gt =~ "AC|CA|AT|TA|GC|CG|GT|TG"; # transversions
+#filter $gt =~ "AT|TA|GC|CG"; # ac/gt only
