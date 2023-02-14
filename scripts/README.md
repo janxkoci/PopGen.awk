@@ -58,6 +58,8 @@ final <- merge(full, filtered, all.x = TRUE)
 write_tsv(final, "dac_tabulated.tsv")
 ```
 
+Alternatively, you can use the example miller scripts in this repo (`dac_tabulation.mlr` and `dac_filters.mlr`)
+
 ## eigenstrat2vcf.awk
 Converts files in EIGENSTRAT format to a GT-only VCF, preserving any polarization by outgroup, such as chimp. The EIGENSTRAT format is produced e.g. by `ctools`, a package of tools to manipulate the SGDP-lite dataset. This format consists of three files:
 
