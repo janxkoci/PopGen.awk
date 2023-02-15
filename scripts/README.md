@@ -67,9 +67,11 @@ Converts files in EIGENSTRAT format to a GT-only VCF, preserving any polarizatio
  - a list of sites (`.snp`),
  - and a list of samples (`.ind`).
 
-The three-file format typically uses a shared name **prefix**, which is provided to the `awk` script as a parameter:
+The three-file format typically uses a shared name **prefix**, which is provided to the `awk` script as an argument:
 
-    awk -f eigenstrat2vcf.awk -v prefix="SGDP.v2" | bgzip > SGDP.v2.vcf.gz
+    awk -f eigenstrat2vcf.awk SGDP.v2 | bgzip > SGDP.v2.vcf.gz
+    # add basic annotations
+    awk -f eigenstrat2vcf.awk SGDP.v2 | bcftools view -Oz > SGDP.v2.vcf.gz
 
 The script is POSIX compliant, so `mawk` can be used for extra speed. The output is a minimal-but-valid VCF (e.g. `bcftools` accepts it and so can be used to add missing annotations, if need be).
 
