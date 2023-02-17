@@ -58,7 +58,7 @@ final <- merge(full, filtered, all.x = TRUE)
 write_tsv(final, "dac_tabulated.tsv")
 ```
 
-Alternatively, you can use the example miller scripts in this repo (`dac_tabulation.mlr` and `dac_filters.mlr`).
+Alternatively, you can use the example miller scripts in this repo (`daf_tabulation.mlr` and `daf_filters.mlr`).
 
 ## eigenstrat2vcf.awk
 Converts files in EIGENSTRAT format to a GT-only VCF, preserving any polarization by outgroup, such as chimp. The EIGENSTRAT format is produced e.g. by `ctools`, a package of tools to manipulate the SGDP-lite dataset. This format consists of three files:
@@ -69,14 +69,12 @@ Converts files in EIGENSTRAT format to a GT-only VCF, preserving any polarizatio
 
 The three-file format typically uses a shared name **prefix**, which is provided to the `awk` script as an argument:
 
-    awk -f eigenstrat2vcf.awk SGDP.v2 | bgzip > SGDP.v2.vcf.gz
-    # add basic annotations
-    awk -f eigenstrat2vcf.awk SGDP.v2 | bcftools view -Oz > SGDP.v2.vcf.gz
+    awk -f eigenstrat2vcf.awk path/to/prefix | bgzip > prefix.vcf.gz
 
 The script is POSIX compliant, so `mawk` can be used for extra speed. The output is a minimal-but-valid VCF (e.g. `bcftools` accepts it and so can be used to add missing annotations, if need be).
 
 ## vcfGTcount.gawk
-A simple script that takes VCF as input and prints genotype counts for all samples, in long three-column format: sample, GT, count. The output can be easily analyzed with e.g. R or miller. I am often interested in genotype counts to check for various artifacts and irregularities in my samples, but I haven't found a good tool that provides this basic function.
+A simple script that takes VCF as input and prints genotype counts for all samples, in long three-column format: sample, GT, count. The output can be easily analyzed with e.g. R or miller. I am often interested in genotype counts to check for various artifacts and irregularities in my samples, or to quickly assess heterozygosity, but I haven't found a good tool that provides this basic function.
 
 Another important objective of this script is to showcase VCF parsing with `gawk` - how to loop over samples, parse genotypes, and accumulate basic stats. It can be easily expanded to e.g. count translated genotypes, per-sample mean coverage, etc, using the same coding techniques.
 
