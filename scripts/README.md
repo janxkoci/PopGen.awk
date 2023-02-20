@@ -76,6 +76,8 @@ The script is POSIX compliant, so `mawk` can be used for extra speed. The output
 ## vcfGTcount.gawk
 A simple script that takes VCF as input and prints genotype counts for all samples, in long three-column format: sample, GT, count. The output can be easily analyzed with e.g. R or miller. I am often interested in genotype counts to check for various artifacts and irregularities in my samples, or to quickly assess heterozygosity, but I haven't found a good tool that provides this basic function.
 
+> Recently, I've learnt about new tools in `plink2`, and the latest version (the alpha, not  plink 1.9 beta) includes a tool for this task, invoked with `--sample-counts`. While the `plink2` tool is much, _much_ faster, my script still has a use case as it can read `stdin` and so can be used to assess a file that is not fully written. Just make sure to subset the incomplete file with e.g. `bcftools view -t chr1 unfinished.vcf | gawk ...` to avoid "unexpected end of file" errors.
+
 Another important objective of this script is to showcase VCF parsing with `gawk` - how to loop over samples, parse genotypes, and accumulate basic stats. It can be easily expanded to e.g. count translated genotypes, per-sample mean coverage, etc, using the same coding techniques.
 
 Usage:
