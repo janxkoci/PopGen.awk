@@ -21,6 +21,13 @@ FNR == NR {
 	ind = $1
 	pop = $2
 
+	nind = FNR # num of inds
+
+	## skip excluded samples
+	if (tolower(pop) == "exclude") {
+		next
+	}
+
 	## index of chimp
 	if (tolower(ind) ~ /chimp|pantro/) {
 		chimp = FNR + 4
@@ -39,7 +46,7 @@ FNR == NR {
 			allpops = allpops sep pop; sep = OFS
 		}
 	}
-	nind = FNR # num of inds
+	## don't evaluate other rules while reading popfile
 	next
 }
 
