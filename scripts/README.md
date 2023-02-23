@@ -17,10 +17,18 @@ Removal of missing data with `grep`:
 The script needs two files to work - a popfile and a genotype file. Note that the file order is important - the popfile _must_ be listed before the genotype file. (I may implement handling named arguments (with `getopts`) but with only two arguments it's not a priority.)
 
 #### popfile
-A file with two columns (separated by whitespace, without header), with first column listing individuals and second column defining populations. Can be made in a speadsheet and exported as TSV, or e.g. from an eigenstrat `ind` file:
+A file with two columns (separated by whitespace, without header):
+
+1. individual
+2. population
+  - "outgroup" **must** be one of the populations
+  - "exclude" can be used as population label to skip unwanted samples
+
+Can be made in a speadsheet and exported as TSV, or e.g. from an eigenstrat `ind` file:
 
     awk '{print $1, $3}' data.eigenstrat.ind > popfile.tsv
 
+Note that individual names don't need to match between popfile and genotype file - only order of samples matters!
 
 #### genotype file
 A whitespace-delimited file with four leading columns (CHROM, POS, REF, ALT), followed by variable number of columns with genotypes (GT) for each sample in the popfile (for now the number of samples in both files have to match). The genotype file can be produced using `bcftools query`:
