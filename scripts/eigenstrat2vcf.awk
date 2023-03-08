@@ -29,9 +29,10 @@ BEGIN {
 	idx = 1
 	while ((getline line < indfile) > 0) {
 		split(line, fields, FS)
-		samples[idx] = fields[3]"_"fields[1]
+		samples[idx] = fields[3]"_"fields[1] # TODO look in VCF spec for more useful separator
 		idx++
 	}
+	close(indfile)
 	## concat sample names into a string
 	allinds = ""; sep = ""
 	for (i = 1;  i in samples; i++) {allinds = allinds sep samples[i]; sep = "\t"}
