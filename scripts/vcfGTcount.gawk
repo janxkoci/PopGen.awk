@@ -21,6 +21,7 @@ BEGIN {
     ## check number of columns
     if (NF < 10) {
         print "VCF has no sample data!" > "/dev/stderr"
+        err_exit = 1
         exit 1
     }
     ## collect sample names
@@ -33,6 +34,7 @@ BEGIN {
     ## check FORMAT contains genotypes (GT)
     if ($9 !~ /GT/) {
         print "VCF has no GT data at position: " $1 ":" $2 "!" > "/dev/stderr"
+        err_exit = 1
         exit 1
     }
     ref = $3
@@ -54,6 +56,8 @@ BEGIN {
 }
 
 END {
+    if (err_exit)
+        exit 1
     ## header
     print "sample", "gt", "count"
     ## loop over samples
