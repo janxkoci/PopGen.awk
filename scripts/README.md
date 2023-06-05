@@ -17,7 +17,7 @@ Removal of missing data with `grep`:
 The script needs two files to work - a popfile and a genotype file. Note that the file order is important - the popfile _must_ be listed before the genotype file. (I may implement handling named arguments (with `getopts`) but with only two arguments it's not a priority.)
 
 #### popfile
-A file with two columns (separated by whitespace, without header):
+A file with two columns (separated by tabs, without header):
 
 1. individual
 2. population
@@ -26,16 +26,14 @@ A file with two columns (separated by whitespace, without header):
 
 Can be made in a speadsheet and exported as TSV, or e.g. from an eigenstrat `ind` file:
 
-    awk '{print $1, $3}' data.eigenstrat.ind > popfile.tsv
+    awk '{print $1"\t"$3}' data.eigenstrat.ind > popfile.tsv
 
 Note that individual names don't need to match between popfile and genotype file - only order of samples matters!
 
 #### genotype file
-A whitespace-delimited file with four leading columns (CHROM, POS, REF, ALT), followed by variable number of columns with genotypes (GT) for each sample in the popfile (for now the number of samples in both files have to match). The genotype file can be produced using `bcftools query`:
+A tab-delimited file with four leading columns (CHROM, POS, REF, ALT), followed by variable number of columns with genotypes (GT) for each sample in the popfile (for now the number of samples in both files have to match). The genotype file can be produced using `bcftools query`:
 
-    bcftools query -Hf '%CHROM\t%POS\t%REF\t%ALT[\t%GT]\n' input.vcf | sed '1s/# //' > genotypes.tsv
-
-(Note that the `sed` command is necessary to fix the table header, which has `# ` at the beginning, producing extra column in the eyes of most tools, most notably `awk`!)
+    bcftools query -Hf '%CHROM\t%POS\t%REF\t%ALT[\t%GT]\n' input.vcf > genotypes.tsv
 
 ### Output postprocessing
 The file can then be loaded into `R` to produce site pattern counts:

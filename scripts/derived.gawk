@@ -6,6 +6,7 @@
 # @include "functions.awk"
 
 BEGIN {
+	FS = "\t"
 	OFS = "\t"
 }
 
