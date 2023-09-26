@@ -45,19 +45,6 @@ $3 ~ /R/ {
 	gt = "0/1"
 }
 
-## MASK LQ bases with "."
-#NR>1 {sub(/[acgtn-]/,".",$4)}
-
-## CONVERT GTs to VCF style format
-# NR>1 {
-# 	if($4==".")
-# 		gt="./."
-# 	else if($4==toupper($3))
-# 		{gt="0/0"; $4="."}
-# 	else
-# 		gt="1/1"
-# }
-
 ## PRINT VCF-like format
 # CHROM POS ID REF ALT QUAL FILTER INFO FORMAT
 NR>1 {print $1,$2, ".", ref,alt,".",".","HG","GT",gt}
