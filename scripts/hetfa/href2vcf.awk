@@ -22,28 +22,28 @@ print "##FORMAT=<ID=GT,Number=1,Type=String,Description=\"Genotype\">"
 NR==1 {print "#CHROM","POS","ID","REF","ALT","QUAL","FILTER","INFO","FORMAT",$3; next}
 
 $3 ~ /N/ {
-	ref = "."
+	ref = "N"
 	alt = "."
 	gt = "./."
 }
 
-$3 ~ /[ACGT]/ {
+$3 ~ /[ACGTMR]/ {
 	ref = $3
 	alt = "."
 	gt = "0/0"
 }
 
-$3 ~ /M/ {
-	ref = "C"
-	alt = "A"
-	gt = "0/1"
-}
-
-$3 ~ /R/ {
-	ref = "A"
-	alt = "G"
-	gt = "0/1"
-}
+# $3 ~ /M/ {
+	# ref = "C"
+	# alt = "A"
+	# gt = "0/1"
+# }
+# 
+# $3 ~ /R/ {
+	# ref = "A"
+	# alt = "G"
+	# gt = "0/1"
+# }
 
 ## PRINT VCF-like format
 # CHROM POS ID REF ALT QUAL FILTER INFO FORMAT
