@@ -50,12 +50,13 @@ $4 != $3 {
 	## heterozygous
 	} else if ($4 in iupac) {
 		gt = iupac[$4]
-		if ($3 ~ gt) {
+		split(gt, alts, "")
+		if ($3 in alts) { # FIXME condition not working
 			alt = gt
 			sub($3, "", alt)
 			gt = "0/1"
 		} else {
-			split(gt, alts, "")
+			#split(gt, alts, "")
 			alt = alts[1]","alts[2]
 			gt = "1/2"
 		}
