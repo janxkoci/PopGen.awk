@@ -1,15 +1,15 @@
 # Scripts
 
-## derived.gawk
+## derivedsfs.gawk
 Produces per-population counts of derived alleles (aka unfolded site frequency spectra) using a popfile and genotype table (produced with `bcftools query`, see below), using "outgroup" to define ancestral and derived alleles ("outgroup" **must be** one of the populations in the popfile).
 
 Basic usage:
 
-    gawk -f derived.gawk popfile.tsv genotypes.tsv > dac.tsv
+    gawk -f derivedsfs.gawk popfile.tsv genotypes.tsv > dac.tsv
 
 Removal of missing data with `grep`:
 
-    grep -vF './.' genotypes.tsv | gawk -f derived.gawk popfile.tsv - > dac.tsv
+    grep -vF './.' genotypes.tsv | gawk -f derivedsfs.gawk popfile.tsv - > dac.tsv
 
 (Note the `-` in the second command, which stands for the `stdin` coming from `grep`.)
 
