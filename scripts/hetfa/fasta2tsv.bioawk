@@ -1,0 +1,16 @@
+#bioawk -c fastx -f
+
+BEGIN {
+	OFS = "\t"
+}
+
+NR == 1 {
+	print "chrom", "pos", FILENAME
+}
+
+$name < 23 {
+	split($seq, nucs, "") # uses up to 32gb of RAM with human genome
+	for (n in nucs) {
+		print $name, n, nucs[n]
+	}
+}
