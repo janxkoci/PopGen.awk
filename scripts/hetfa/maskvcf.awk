@@ -18,7 +18,7 @@ BEGIN {
 	ARGV[1] = ARGV[2] = "" # don't let awk use them as files
 
 	## vcf reader
-	if (VCF ~ /gz/) {
+	if (VCF ~ /\.gz$/) {
 		vcfread = "zcat "VCF
 	} else {
 		vcfread = "cat "VCF
