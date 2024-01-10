@@ -1,0 +1,13 @@
+name: popgen-awk
+channels:
+ - conda-forge
+ - bioconda
+dependencies:
+ - gawk
+ - mawk=1.3.4
+ - bioawk
+ - bcftools
+ - miller
+# - r-base
+# - r-seqinr
+# - r-ape
