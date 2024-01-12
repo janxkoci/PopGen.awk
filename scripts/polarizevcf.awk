@@ -15,6 +15,7 @@ BEGIN {
 		if (tolower($i) ~ /chimp|pantro/)
 			chimp = i
 	}
+	print
 }
 
 $5 ~ /,/ {next}
