@@ -1,0 +1,16 @@
+## mlr -t --pass-comments-with "##" put -f
+
+filter $ALT !=~ ",";
+
+$chimp_1 == "1|1" || $chimp_1 == "1|0" {
+    # swap alleles
+    ref=$ALT; alt=$REF;
+    $REF=ref; $ALT=alt;
+
+    # FIXME
+    for (i = 10; i <= NF; i += 1) { # (i = 10; i <= NF; i += 1) (i in $*)
+    	$[[[i]]] = gsub($[[[i]]], "1", "X");
+    	$[[[i]]] = gsub($[[[i]]], "0", "1");
+    	$[[[i]]] = gsub($[[[i]]], "X", "0");
+    }
+}
