@@ -2,6 +2,7 @@
 
 BEGIN {
 	OFS="\t"
+	srand() # set new random seed
 }
 
 /##/ {
@@ -19,6 +20,14 @@ BEGIN {
 }
 
 $5 ~ /,/ {next}
+
+$chimp == "0|1" || $chimp == "1|0" {
+    if (randint(2)) { # gives 0 or 1 with uniform prob
+        $chimp = "0|0"
+    } else {
+        $chimp = "1|1"
+    }
+}
 
 $chimp ~ /^1/ {
 	#$7 = "chimped"
@@ -43,4 +52,9 @@ function progress(nr)
 	if (!(nr % 1000)) {
 		printf "%d sites processed\r", nr > "/dev/stderr"
 	}
+}
+
+function randint(n)
+{
+    return int(n * rand())
 }
