@@ -17,7 +17,6 @@ BEGIN {
 	ARGV[1] = ARGV[2] = ARGV[3] = "" #TODO test this
 
 	## input
-	inprefix = "simdata200mb/filledcircle01_331_gf_low-high2_qpAdm_v1" # ARGV[2]
 	indfile = inprefix".ind"
 	snpfile = inprefix".snp" # output will stay the same
 	genofile = inprefix".geno"
