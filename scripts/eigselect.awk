@@ -14,7 +14,7 @@ BEGIN {
 	keeplist = ARGV[1]
 	inprefix = ARGV[2]
 	outprefix = ARGV[3]
-	ARGV[1] = ARGV[2] = ARGV[3] = "" #TODO test this
+	ARGV[1] = ARGV[2] = ARGV[3] = ""
 
 	## input
 	indfile = inprefix".ind"
@@ -31,18 +31,21 @@ BEGIN {
 
 	idx = 1
 	while ((getline < indfile) > 0) {
+		nind++
 		if ($1 in keepinds) {
 			keep[idx] = idx
 			print $0 > outprefix".ind"
-			idx++
 		}
+		idx++
 	}
 	close(indfile)
 	close(outprefix".ind")
 
 	while ((getline genotypes < genofile) > 0) {
 		split(genotypes, gts, "")
-		for (i = 1; i in keep; i++) {allgeno = allgeno "" gts[i]}
+		for (i = 1; i <= nind; i++) {
+			if (i in keep) {allgeno = allgeno "" gts[i]}
+		}
 		print allgeno > outprefix".geno"
 		allgeno = ""
 	}
