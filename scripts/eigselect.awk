@@ -28,6 +28,7 @@ BEGIN {
 	while ((getline < keeplist) > 0) {
 		keepinds[$0]++
 	}
+	close(keeplist)
 
 	idx = 1
 	while ((getline < indfile) > 0) {
