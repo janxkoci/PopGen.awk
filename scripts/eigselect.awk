@@ -22,8 +22,11 @@ BEGIN {
 	genofile = inprefix".geno"
 
 	## write snp file (unchanged)
-	print "cp", snpfile, outprefix".snp" | "/bin/bash"
-	close("/bin/bash")
+	## use symlink to save disk space
+	shell = "/bin/bash"
+	#print "cp", snpfile, outprefix".snp" | shell
+	print "ln -s", snpfile, outprefix".snp" | shell
+	close(shell)
 
 	while ((getline < keeplist) > 0) {
 		keepinds[$0]++
