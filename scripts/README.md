@@ -79,19 +79,24 @@ The three-file format typically uses a shared name **prefix**, which is provided
 
 The script is POSIX compliant, so `mawk` can be used for extra speed. The output is a minimal-but-valid VCF (e.g. `bcftools` accepts it and so can be used to add missing annotations, if need be).
 
-## vcfGTcount.gawk
+## vcfcountgt.gawk
 A simple script that takes VCF as input and prints genotype counts for all samples, in long three-column format: sample, GT, count. The output can be easily analyzed with e.g. R or miller. I am often interested in genotype counts to check for various artifacts and irregularities in my samples, or to quickly assess heterozygosity, but I haven't found a good tool that provides this basic function.
 
-> Recently, I've learnt about new tools in `plink2`, and the latest version (the alpha, not  plink 1.9 beta) includes a tool for this task, invoked with `--sample-counts`. While the `plink2` tool is much, _much_ faster, my script still has a use case as it can read `stdin` and so can be used to assess a file that is not fully written. Just make sure to subset the incomplete file with e.g. `bcftools view -t chr1 unfinished.vcf | gawk ...` to avoid "unexpected end of file" errors.
+> Recently, I've learnt about new tools in `plink2`, and the latest version (the alpha, not  plink 1.9 beta) includes a tool for this task, invoked with `--sample-counts`. While the `plink2` tool is much, _much_ faster, my script still has a use case as it can read `stdin` and so can be used to assess a file that is not fully written. Just make sure to subset the incomplete file with e.g. `bcftools view -t chr1 unfinished.vcf | gawk ...` to avoid "unexpected end of file" errors. In addition, `plink2` also [has a limit](https://github.com/chrchang/plink-ng/issues/250) on how many sites it can process, although most people will probably not run into it.
 
 Another important objective of this script is to showcase VCF parsing with `gawk` - how to loop over samples, parse genotypes, and accumulate basic stats. It can be easily expanded to e.g. count translated genotypes, per-sample mean coverage, etc, using the same coding techniques.
 
 Usage:
 
 ```bash
-gawk -f vcfGTcount.gawk input.vcf > gtcounts.tsv
+gawk -f vcfcountgt.gawk input.vcf > gtcounts.tsv
 # or compressed vcf
-zcat input.vcf.gz | gawk -f vcfGTcount.gawk > gtcounts.tsv
+zcat input.vcf.gz | gawk -f vcfcountgt.gawk - > gtcounts.tsv
 # or bcf
-bcftools view input.bcf | gawk -f vcfGTcount.gawk > gtcounts.tsv
+bcftools view input.bcf | gawk -f vcfcountgt.gawk - > gtcounts.tsv
 ```
+
+(Again, note the `-` in the second & third command, which stands for the `stdin` coming from `zcat` or `bcftools`.)
+
+## vcfcountgt.awk (portable)
+Portable version of the above script. Since it's portable, `mawk` can be used for speed, and indeed the script runs about 5x faster. The slight downside is that the output is now not sorted by samples, but this is easily fixed with multitude of tools (e.g. R, miller, csvtk, xsv, etc).
