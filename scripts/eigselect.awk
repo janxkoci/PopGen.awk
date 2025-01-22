@@ -16,6 +16,11 @@ BEGIN {
 	outprefix = ARGV[3]
 	ARGV[1] = ARGV[2] = ARGV[3] = ""
 
+	if (inprefix == outprefix) {
+		print "Error: input and output cannot have the same prefix!" > "/dev/stderr"
+		exit 1
+	}
+
 	## input
 	indfile = inprefix".ind"
 	snpfile = inprefix".snp" # output will stay the same
